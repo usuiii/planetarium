@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<style type="text/css">
+    body{
+       background-color: #000;
+    }
+    canvas#mainCanvas{
+        width: 1000px;
+        height: 500px;
+    }
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+    // $('#mainCanvas').css({
+    //     width: $(window).width(),
+    //     height: $(window).height()
+    //    })
+    var img1 = new Image();
+    img1.src = "star3.png";
+    var img2 = new Image();
+    img2.src = "star3.png";
+    var img3 = new Image();
+    img3.src = "star3.png";
+    
+    var canvas =$('#mainCanvas')[0]; 
+    var ctx = canvas.getContext('2d');
+        
+    img1.onload = function() {
+        ctx.drawImage(img1, 10, 10);
+        ctx.drawImage(img1, 200, 50);
+    };
+    img2.onload = function() {
+        ctx.drawImage(img2, 100, 30);
+    };   
+    img3.onload = function() {
+        ctx.drawImage(img3, 50, 50);
+    };
+});
+</script>
+<title>planetarium</title>
+</head>
+<body>
+<canvas id="mainCanvas"></canvas>
+</body>
