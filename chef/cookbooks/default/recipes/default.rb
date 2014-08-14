@@ -8,14 +8,14 @@
 #
 
 # update yum
-execute "yum-update" do
-  user "root"
-  command "yum -y update"
-  action :run
-end
+# execute "yum-update" do
+#   user "root"
+#   command "yum -y update"
+#   action :run
+# end
 
 #php5-curlに対応するものって??
-packages = %w{php php-mbstring php-mysql php-cli php-fpm php-pear mysql-server nginx curl php-gd redis php-redis git php-devel}
+packages = %w{php php-mbstring php-mysql php-cli php-fpm php-pear mysql-server nginx curl php-gd redis php-redis git php-devel mlocate}
 packages.each do |pkg|
     package pkg do
       action [:install, :upgrade]

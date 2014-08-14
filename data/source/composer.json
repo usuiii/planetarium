@@ -1,0 +1,19 @@
+{
+    "name": "planetarium",
+    "repositories": [
+        {
+            "type": "pear",
+            "url": "http://pear.cakephp.org"
+        }
+    ],
+    "require": {
+        "cakedc/search": "*",
+        "cakedc/migrations": "*"
+    },
+    "require-dev": {
+        "cakephp/debug_kit": "2.2.*@dev"
+    },
+    "config": {
+        "vendor-dir": "Vendor/"
+    }
+}
