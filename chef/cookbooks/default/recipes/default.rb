@@ -35,6 +35,17 @@ execute "composer-install" do
   not_if { ::File.exists?("/usr/local/bin/composer")}
 end
 
+execute "composer-install" do
+  user "root"
+  command "cd /vagrant_data/source/app; composer install"
+  not_if { ::File.exists?("/vagrant_data/source/app/composer.lock")}
+end
+
+execute "composer-update" do
+  user "root"
+  command "cd /vagrant_data/source/app; composer update"
+  action  :run
+end
 
 template "/etc/nginx/conf.d/default.conf" do
   mode 0644
