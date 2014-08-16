@@ -111,7 +111,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "yum-remi"
     chef.add_recipe "default"
     chef.json = { 
-      doc_root: '/vagrant_data/source/app/webroot', 
+      nginx_user: 'vagrant',
+      doc_root: '/vagrant_data/app/webroot', 
       timezone: 'Asia/Tokyo' 
     }
   end

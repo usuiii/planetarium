@@ -1,0 +1,7 @@
+.vagrant/
+*.swp
+.DS_Store
+composer.lock
+data/Plugin/
+data/Vendor/
+data/app/tmp/

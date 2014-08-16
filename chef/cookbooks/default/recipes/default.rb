@@ -8,14 +8,14 @@
 #
 
 # update yum
-# execute "yum-update" do
-#   user "root"
-#   command "yum -y update"
-#   action :run
-# end
+execute "yum-update" do
+  user "root"
+  command "yum -y update"
+  action :run
+end
 
 #php5-curlに対応するものって??
-packages = %w{php php-mbstring php-mysql php-cli php-fpm php-pear mysql-server nginx curl php-gd redis php-redis git php-devel mlocate}
+packages = %w{php php-mcrypt php-mbstring php-mysql php-cli php-fpm php-pear mysql-server nginx curl php-gd redis php-redis git php-devel mlocate}
 packages.each do |pkg|
     package pkg do
       action [:install, :upgrade]
@@ -37,14 +37,20 @@ end
 
 execute "composer-install" do
   user "root"
-  command "cd /vagrant_data/source/app; composer install"
-  not_if { ::File.exists?("/vagrant_data/source/app/composer.lock")}
+  command "cd /vagrant_data; composer install"
+  not_if { ::File.exists?("/vagrant_data/composer.lock")}
 end
 
 execute "composer-update" do
   user "root"
-  command "cd /vagrant_data/source/app; composer update"
+  command "cd /vagrant_data; composer update"
   action  :run
+end
+
+template "/etc/nginx/nginx.conf" do
+  user "root"
+  mode 0644
+  source "nginx.conf.erb"
 end
 
 template "/etc/nginx/conf.d/default.conf" do
