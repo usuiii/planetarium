@@ -9,7 +9,8 @@
     "require": {
         "cakephp/cakephp": "*",
         "cakedc/search": "*",
-        "cakedc/migrations": "*"
+        "cakedc/migrations": "*",
+        "wyrihaximus/ratchet": "dev-master"
     },
     "require-dev": {
         "cakephp/debug_kit": "2.2.*@dev"

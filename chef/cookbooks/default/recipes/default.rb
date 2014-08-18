@@ -14,8 +14,7 @@ execute "yum-update" do
   action :run
 end
 
-#php5-curlに対応するものって??
-packages = %w{php php-mcrypt php-mbstring php-mysql php-cli php-fpm php-pear mysql-server nginx curl php-gd redis php-redis git php-devel mlocate}
+packages = %w{php php-mcrypt php-mbstring php-mysql php-cli php-fpm php-pear mysql-server nginx curl php-gd redis php-redis supervisor haproxy php-pecl-event libevent-devel git php-devel mlocate}
 packages.each do |pkg|
     package pkg do
       action [:install, :upgrade]
@@ -70,6 +69,22 @@ end
     end
 end
 
+# set supervisor
+template "/etc/supervisord.conf" do
+  user "root"
+  mode 0644
+  source "supervisord.conf.erb"
+end
+directory "/etc/supervisord.d" do
+  owner "root"
+  group "root"
+  mode 0644
+  action :create
+end
+
+service "supervisord" do
+  action   [ :enable, :start ]
+end  
 
 # set php.ini date.timezone
 template "/etc/php.d/timezone.ini" do

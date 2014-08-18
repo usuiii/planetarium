@@ -51,9 +51,10 @@ Cache::config('default', array('engine' => 'File'));
  *
  */
 App::build(array(
-    'Plugin' => array(ROOT . DS . 'Plugin/')
+    'Plugin' => array(ROOT . DS . 'Plugin/'),
+    'Vendor' => array(ROOT . DS . 'Vendor/'),
 ));
-
+require ROOT . DS . 'vendor' . DS . 'autoload.php';
 /**
  * Custom Inflector rules can be set to correctly pluralize or singularize table, model, controller names or whatever other
  * string is passed to the inflection functions
@@ -95,6 +96,47 @@ Configure::write('Dispatcher.filters', array(
 	'AssetDispatcher',
 	'CacheDispatcher'
 ));
+
+
+/**
+ * WebSockets
+ */
+Configure::write('Ratchet', [
+	'Connection' => [
+		'websocket' => [
+			'address' => '127.0.0.1',
+			'port' => 11001
+		],
+	],
+]);
+
+
+/*
+Configure::write('Ratchet', [
+	'Client' => [
+		'retryDelay' => 5000, // Not the best option but it speeds up development
+		'maxRetries' => 25, // Keep on trying! (Also not the best option)
+	],
+	'Connection' => [
+		'websocket' => [
+			'address' => '127.0.0.1',
+			'port' => 11001,
+		],
+		'external' => [
+			'hostname' => 'localhost',
+			'port' => 80,
+			'path' => 'websocket',
+			'secure' => false,
+		],
+		'keepaliveInterval' => 23, // Why 23? Because NGINX kills after 30 seconds, set to 0 to disable
+	],
+]);
+
+App::uses('CakeEventManager', 'Event');
+App::uses('RatchetKeepAliveListener', 'Ratchet.Event');
+CakeEventManager::instance()->attach(new RatchetKeepAliveListener());
+*/
+
 
 /**
  * Configures default file logging options

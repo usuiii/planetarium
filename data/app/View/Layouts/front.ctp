@@ -23,12 +23,16 @@
 	<?php
 		// css
 		echo $this->Html->css('//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.css', null, array('media' => 'all'));
+
+		
 		echo $this->Html->css('plametarium', null, array('media' => 'all'));
 		//meta
 		echo $this->Html->meta('viewport', 'width=device-width');
 		// js
 		echo $this->Html->script('//code.jquery.com/jquery-2.1.1.min.js');
-	
+		echo $this->Html->script('//autobahn.s3.amazonaws.com/autobahnjs/latest/autobahn.min.jgz');
+		
+
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
 		echo $this->fetch('script');
