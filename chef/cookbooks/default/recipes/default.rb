@@ -69,17 +69,22 @@ end
     end
 end
 
+#haproxy.cfg
+template "/etc/haproxy.cfg" do
+  user "root"
+  mode 0644
+  source "haproxy.cfg.erb"
+end
+service "haproxy" do
+  action   [ :enable, :start ]
+end  
+
+
 # set supervisor
 template "/etc/supervisord.conf" do
   user "root"
   mode 0644
   source "supervisord.conf.erb"
-end
-directory "/etc/supervisord.d" do
-  owner "root"
-  group "root"
-  mode 0644
-  action :create
 end
 
 service "supervisord" do

@@ -33,7 +33,7 @@ $(document).ready(function(){
     	//----------------------------------------------------------------------------
     	console.log("Ok, Autobahn loaded", autobahn.version);
  var connection = new autobahn.Connection({
-         url: 'ws://127.0.0.1:11001/',
+         url: 'ws://127.0.0.1:1234/',
          realm: 'realm1'
       });
 
