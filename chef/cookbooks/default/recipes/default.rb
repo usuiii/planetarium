@@ -14,7 +14,7 @@ execute "yum-update" do
   action :run
 end
 
-packages = %w{php php-mcrypt php-mbstring php-mysql php-cli php-fpm php-pear mysql-server nginx curl php-gd redis php-redis supervisor haproxy php-pecl-event libevent-devel git php-devel mlocate}
+packages = %w{php php-mcrypt php-mbstring php-mysql php-cli php-fpm php-pear mysql-server nginx curl php-gd supervisor haproxy php-pecl-event libevent-devel git php-devel mlocate}
 packages.each do |pkg|
     package pkg do
       action [:install, :upgrade]
@@ -70,25 +70,17 @@ end
 end
 
 #haproxy.cfg
-template "/etc/haproxy.cfg" do
+template "/etc/haproxy/haproxy.cfg" do
   user "root"
   mode 0644
   source "haproxy.cfg.erb"
 end
 service "haproxy" do
-  action   [ :enable, :start ]
+  action   [ :enable, :start , :restart]
 end  
 
-
-# set supervisor
-template "/etc/supervisord.conf" do
-  user "root"
-  mode 0644
-  source "supervisord.conf.erb"
-end
-
 service "supervisord" do
-  action   [ :enable, :start ]
+  action   [ :enable, :start , :restart]
 end  
 
 # set php.ini date.timezone
@@ -127,8 +119,4 @@ EOS
 action :run
 end
 
-# start redis & CakeResque
-service "redis" do
-  action   [ :enable, :start ]
-end 
 
