@@ -1,4 +1,4 @@
-<script src="http://autobahn.s3.amazonaws.com/js/autobahn.min.js"></script>
+<?php $this->Wamp->init(); ?>
 <script type="text/javascript">
 $(document).ready(function(){
 	//----------------------------------------------------------------------------
@@ -27,43 +27,30 @@ $(document).ready(function(){
 		},
 		onload: false
 	};
-	
+
 	//----------------------------------------------------------------------------
-	// web sockets
+	// webSocket
     	//----------------------------------------------------------------------------
-    	console.log("Ok, Autobahn loaded", autobahn.version);
- var connection = new autobahn.Connection({
-         url: 'ws://127.0.0.1:1234/',
-         realm: 'realm1'
-      });
-
-connection.onopen = function (session) {
-
-   // 1) subscribe to a topic
-   function onevent(args) {
-      console.log("Event:", args[0]);
-   }
-   session.subscribe('com.myapp.hello', onevent);
-
-   // 2) publish an event
-   session.publish('com.myapp.hello', ['Hello, world!']);
-
-   // 3) register a procedure for remoting
-   function add2(args) {
-      return args[0] + args[1];
-   }
-   session.register('com.myapp.add2', add2);
-
-   // 4) call a remote procedure
-   session.call('com.myapp.add2', [2, 3]).then(
-      function (res) {
-         console.log("Result:", res);
-      }
-   );
-};
-
-connection.open();
-	
+	cakeWamp.subscribe('Plugin.TopicName', function(topicUri, event) {
+	    // Do your stuff
+	    console.log(topicUri, event);
+	    alert(event);
+	   alert(topicUri);
+	     
+	});
+	cakeWamp.subscribe('Planetarium', function(uri, data) {
+	    // Do your stuff
+	    console.log(uri, data);
+	    alert(data);
+	   alert(uri);
+	     
+	});
+	cakeWamp.onconnectListeners.push(function(session) {
+	    console.log('Connected!1122!!!!!');
+	});
+	cakeWamp.onhangupListeners.push(function(session) {
+	    alert('Poof!');
+	});
 
 	//----------------------------------------------------------------------------
 	// 初期データ取得
@@ -224,6 +211,5 @@ connection.open();
 
 });
 </script>
-
 <canvas id="mainCanvas"></canvas>
 <canvas id="bufferCanvas" style="display:none;"></canvas>

@@ -30,7 +30,6 @@
 		echo $this->Html->meta('viewport', 'width=device-width');
 		// js
 		echo $this->Html->script('//code.jquery.com/jquery-2.1.1.min.js');
-		echo $this->Html->script('//autobahn.s3.amazonaws.com/autobahnjs/latest/autobahn.min.jgz');
 		
 
 		echo $this->fetch('meta');

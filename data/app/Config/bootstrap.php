@@ -101,6 +101,7 @@ Configure::write('Dispatcher.filters', array(
 /**
  * WebSockets
  */
+/*
 Configure::write('Ratchet', [
 	'Connection' => [
 		'websocket' => [
@@ -109,9 +110,8 @@ Configure::write('Ratchet', [
 		],
 	],
 ]);
+*/
 
-
-/*
 Configure::write('Ratchet', [
 	'Client' => [
 		'retryDelay' => 5000, // Not the best option but it speeds up development
@@ -123,8 +123,8 @@ Configure::write('Ratchet', [
 			'port' => 11001,
 		],
 		'external' => [
-			'hostname' => 'localhost',
-			'port' => 80,
+			'hostname' => 'localhost',			//if not local vagrant web server domain or ip address
+			'port' => 1234,					//if not local vagrant web server port 80
 			'path' => 'websocket',
 			'secure' => false,
 		],
@@ -135,7 +135,30 @@ Configure::write('Ratchet', [
 App::uses('CakeEventManager', 'Event');
 App::uses('RatchetKeepAliveListener', 'Ratchet.Event');
 CakeEventManager::instance()->attach(new RatchetKeepAliveListener());
-*/
+class EpochListener implements CakeEventListener {
+
+    public function implementedEvents() {
+        return [
+            'Rachet.WampServer.onSubscribeNewTopic.Plugin.TopicName' => 'epoch',
+        ];
+    }
+
+    public function epoch(CakeEvent $cakeEvent) {
+        $cakeEvent->subject()->broadcast('Plugin.TopicName', ['epoch' => time()]);
+    }
+}
+class PlanetarimumListener implements CakeEventListener {
+
+    public function implementedEvents() {
+        return [
+            'Rachet.WampServer.onSubscribeNewTopic.Planetarimum' => 'epoch',
+        ];
+    }
+
+    public function epoch(CakeEvent $cakeEvent) {
+        $cakeEvent->subject()->broadcast('Planetarimum', ['epoch' => time()]);
+    }
+}
 
 
 /**

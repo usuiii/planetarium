@@ -36,6 +36,8 @@ class PagesController extends AppController {
  * @var array
  */
 	public $uses = array();
+	public $helpers = array('Ratchet.Wamp');
+	
 
 /**
  * Displays a view
