@@ -36,6 +36,7 @@ class StarsController extends AppController {
 	public $components = array('RequestHandler');
 
 	public function view($id) {
+$this->log( print_r($this->request->query, true));
 		$stars['1'] = array('star' =>1, 'x' => 00, 'y' => 00);
 		$stars['2'] = array('star' =>3, 'x' => 200, 'y' => 300);
 		$stars['3'] = array('star' =>2, 'x' => 300, 'y' => 100);

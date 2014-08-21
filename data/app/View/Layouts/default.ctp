@@ -32,9 +32,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
-		echo $this->fetch('script');
 		// js
 		echo $this->Html->script('//code.jquery.com/jquery-2.1.1.min.js');
+		echo $this->fetch('script');
 		
 	?>
 </head>

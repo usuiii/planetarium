@@ -1,5 +1,5 @@
 <?php $this->Wamp->init(); ?>
-<script type="text/javascript">
+<?php $this->Html->scriptStart(array('inline' => false)); ?>
 $(document).ready(function(){
 	//----------------------------------------------------------------------------
 	// キャンバス設定
@@ -34,16 +34,12 @@ $(document).ready(function(){
 	cakeWamp.subscribe('Plugin.TopicName', function(topicUri, event) {
 	    // Do your stuff
 	    console.log(topicUri, event);
-	    alert(event);
-	   alert(topicUri);
+	    alert(event.text);
 	     
 	});
 	cakeWamp.subscribe('Planetarium', function(uri, data) {
-	    // Do your stuff
-	    console.log(uri, data);
-	    alert(data);
-	   alert(uri);
-	     
+	    //TODO i移動データ指示
+		setNewPostion();
 	});
 	cakeWamp.onconnectListeners.push(function(session) {
 	    console.log('Connected!1122!!!!!');
@@ -73,15 +69,13 @@ $(document).ready(function(){
 	  			starImages.onload = true;
 	  			$.ajax({
 					type: 'GET',
-					url: '/stars/1.json',
+					url: '/stars/1.json?no=1',
 					dataType: 'json',
 					success: function(json){
 						starPosition = json.stars;
 						for (var key in starPosition) {
 						  	drowStar(ctx, starPosition[key]);
 						}
-						//TODO i移動データ指示
-						setNewPostion();
 					}
 				});
 	  		}
@@ -202,14 +196,9 @@ $(document).ready(function(){
 					}
 				}
 			}
-		   	
 		};
-		
 	}
-
-
-
 });
-</script>
+<?php $this->Html->scriptEnd(); ?>
 <canvas id="mainCanvas"></canvas>
 <canvas id="bufferCanvas" style="display:none;"></canvas>
