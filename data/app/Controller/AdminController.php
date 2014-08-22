@@ -30,7 +30,7 @@ App::uses('AppController', 'Controller');
  */
 
 
-class AdminsController extends AppController {
+class AdminController extends AppController {
 
 	public $uses = array();
       public $helpers = array('Ratchet.Wamp');

@@ -114,7 +114,7 @@ execute "mysql-init" do
   command <<EOS
     mysql -u root --execute  "create database if not exists planetarium CHARACTER SET utf8;"
     mysql -u root --execute  "create database if not exists planetarium_test CHARACTER SET utf8;"
-    # cd /vagrant_data/app; ./Console/cake Migrations.migration run all
+    cd /vagrant_data/app; ./Console/cake Migrations.migration run all
 EOS
 action :run
 end

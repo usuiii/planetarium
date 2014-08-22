@@ -20,9 +20,11 @@ $(document).ready(function(){
 
 	var starImages ={
 		images:{
+			'0': {img: new Image(), src: "star1.png", load:false},
 			'1': {img: new Image(), src: "star1.png", load:false},
 			'2': {img: new Image(), src: "star2.png", load:false},
 			'3': {img: new Image(), src: "star3.png", load:false},
+			'4': {img: new Image(), src: "star4.png", load:false},
 			'shootingStar': {img: new Image(), src: "star3.png", load:false}
 		},
 		onload: false
@@ -38,8 +40,15 @@ $(document).ready(function(){
 	     
 	});
 	cakeWamp.subscribe('Planetarium', function(uri, data) {
-	    //TODO i移動データ指示
-		setNewPostion();
+		var resultData = data.stars;
+	    	//増えた時の対応
+		for (var key in resultData) {
+	　　	if(starPosition[key] == undefined){
+				starPosition[key] = $.extend(true, {}, resultData[key]);
+			}
+		}
+		//移動データ指示
+	    	moveStart(starPosition, resultData);
 	});
 	cakeWamp.onconnectListeners.push(function(session) {
 	    console.log('Connected!1122!!!!!');
@@ -69,7 +78,7 @@ $(document).ready(function(){
 	  			starImages.onload = true;
 	  			$.ajax({
 					type: 'GET',
-					url: '/stars/1.json?no=1',
+					url: '/stars/1.json',
 					dataType: 'json',
 					success: function(json){
 						starPosition = json.stars;
@@ -82,40 +91,7 @@ $(document).ready(function(){
 	  	}
      	}
 	
-    	//----------------------------------------------------------------------------
-	// TODO移動データ取得
-    	//----------------------------------------------------------------------------
-    	function setNewPostion(){
-		var resultData = $.extend(true, {}, starPosition);
-		for (var key in resultData) {
-		  	resultData[key].x = resultData[key].x + 100;
-		 	resultData[key].y = resultData[key].y + 180;
-		}
-		resultData['41'] = {star:1,x:100,y:20};
-	    	resultData['42'] = {star:3,x:300,y:222};
-	    	resultData['43'] = {star:2,x:700,y:50};
-	    	resultData['44'] = {star:3,x:800,y:350};
-	    	
-	    	delete resultData['27'];
-		delete resultData['28'];
-	    	delete resultData['29'];
-	    	delete resultData['5'];
-		delete resultData['6'];
-	    	delete resultData['7'];
-		delete resultData['8'];
-
-
-
-		//移動データ描画
-	    	//増えた時の対応
-		for (var key in resultData) {
-	　　	if(starPosition[key] == undefined){
-				starPosition[key] = $.extend(true, {}, resultData[key]);
-			}
-		}
-		//位置を調整しながら移動
-		moveStart(starPosition, resultData);
-    	}
+    	
 	//===============================================
 	// 処理関数
     	//===============================================
