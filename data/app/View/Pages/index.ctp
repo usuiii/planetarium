@@ -25,6 +25,7 @@ $(document).ready(function(){
 			'2': {img: new Image(), src: "star2.png", load:false},
 			'3': {img: new Image(), src: "star3.png", load:false},
 			'4': {img: new Image(), src: "star4.png", load:false},
+			'5': {img: new Image(), src: "star5.png", load:false},
 			'shootingStar': {img: new Image(), src: "star3.png", load:false}
 		},
 		onload: false
@@ -48,7 +49,7 @@ $(document).ready(function(){
 			}
 		}
 		//移動データ指示
-	    	moveStart(starPosition, resultData);
+	    	moveStar(starPosition, resultData);
 	});
 	cakeWamp.onconnectListeners.push(function(session) {
 	    console.log('Connected!1122!!!!!');
@@ -108,7 +109,7 @@ $(document).ready(function(){
 	}
 
     	//移動させる
-    	function moveStart(currentPosition, nextPostion, moveFrame, moveTime){
+    	function moveStar(currentPosition, nextPostion, moveFrame, moveTime){
     		if (moveFrame == undefined){moveFrame = 100};
 		if (moveTime == undefined){moveTime = 50};
 		var timerMoveStart;
