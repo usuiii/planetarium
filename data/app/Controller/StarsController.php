@@ -46,16 +46,16 @@ class StarsController extends AppController {
 		
 		$options = array(
 			'conditions' => array(
-				'Star.ra_deg <=' => 120,
+				'Star.ra_deg <=' => 360,
 				'Star.ra_deg >=' => 0,
 				'Star.de_deg <=' => 90,
 				'Star.de_deg >=' => 0,
 				'Star.vmag <' => 6,
-				'Star.vmag >' => 0,		
+				//'Star.vmag >' => 0,		
 			)
 		);
-		$x = 0;
-		$y = 0;
+
+		
 		if( !empty($this->request['url']['no'])){
 			switch ($this->request['url']['no']) {
 				case 1:
@@ -69,106 +69,84 @@ class StarsController extends AppController {
 					$options['conditions']['Star.ra_deg >='] = 60;
 					$options['conditions']['Star.de_deg <='] = 90;
 					$options['conditions']['Star.de_deg >='] = 0;
-					$x = 1;	
 					break;
 				case 3:
 					$options['conditions']['Star.ra_deg <='] = 240;
 					$options['conditions']['Star.ra_deg >='] = 120;
 					$options['conditions']['Star.de_deg <='] = 90;
 					$options['conditions']['Star.de_deg >='] = 0;
-					$x = 2;
 					break;
 				case 4:
 					$options['conditions']['Star.ra_deg <='] = 300;
 					$options['conditions']['Star.ra_deg >='] = 180;
 					$options['conditions']['Star.de_deg <='] = 90;
 					$options['conditions']['Star.de_deg >='] = 0;
-					$x = 3;
 					break;
 				case 5:
 					$options['conditions']['Star.ra_deg <='] = 360;
 					$options['conditions']['Star.ra_deg >='] = 240;
 					$options['conditions']['Star.de_deg <='] = 90;
 					$options['conditions']['Star.de_deg >='] = 0;
-					$x = 4;
 					break;
 				case 6:
 					$options['conditions']['Star.ra_deg <='] = 120;
 					$options['conditions']['Star.ra_deg >='] = 0;
 					$options['conditions']['Star.de_deg <='] = 45;
 					$options['conditions']['Star.de_deg >='] = -45;
-					$y = 1;
 					break;
 				case 7:
 					$options['conditions']['Star.ra_deg <='] = 180;
 					$options['conditions']['Star.ra_deg >='] = 60;
 					$options['conditions']['Star.de_deg <='] = 45;
 					$options['conditions']['Star.de_deg >='] = -45;
-					$x = 1;
-					$y = 1;	
 					break;
 				case 8:
 					$options['conditions']['Star.ra_deg <='] = 240;
 					$options['conditions']['Star.ra_deg >='] = 120;
 					$options['conditions']['Star.de_deg <='] = 45;
 					$options['conditions']['Star.de_deg >='] = -45;
-					$x = 2;
-					$y = 1;
 					break;
 				case 9:
 					$options['conditions']['Star.ra_deg <='] = 300;
 					$options['conditions']['Star.ra_deg >='] = 180;
 					$options['conditions']['Star.de_deg <='] = 45;
 					$options['conditions']['Star.de_deg >='] = -45;
-					$x = 3;
-					$y = 1;
 					break;
 				case 10:
 					$options['conditions']['Star.ra_deg <='] = 360;
 					$options['conditions']['Star.ra_deg >='] = 240;
 					$options['conditions']['Star.de_deg <='] = 45;
 					$options['conditions']['Star.de_deg >='] = -45;
-					$x = 4;
-					$y = 1;
 					break;
 				case 11:
 					$options['conditions']['Star.ra_deg <='] = 120;
 					$options['conditions']['Star.ra_deg >='] = 0;
 					$options['conditions']['Star.de_deg <='] = 0;
 					$options['conditions']['Star.de_deg >='] = -90;
-					$y = 2;
 					break;
 				case 12:
 					$options['conditions']['Star.ra_deg <='] = 180;
 					$options['conditions']['Star.ra_deg >='] = 60;
 					$options['conditions']['Star.de_deg <='] = 0;
 					$options['conditions']['Star.de_deg >='] = -90;
-					$x = 1;
-					$y = 2;	
 					break;
 				case 13:
 					$options['conditions']['Star.ra_deg <='] = 240;
 					$options['conditions']['Star.ra_deg >='] = 120;
 					$options['conditions']['Star.de_deg <='] = 0;
 					$options['conditions']['Star.de_deg >='] = -90;
-					$x = 2;
-					$y = 2;
 					break;
 				case 14:
 					$options['conditions']['Star.ra_deg <='] = 300;
 					$options['conditions']['Star.ra_deg >='] = 180;
 					$options['conditions']['Star.de_deg <='] = 0;
 					$options['conditions']['Star.de_deg >='] = -90;
-					$x = 3;
-					$y = 2;
 					break;
 				case 15:
 					$options['conditions']['Star.ra_deg <='] = 360;
 					$options['conditions']['Star.ra_deg >='] = 240;
 					$options['conditions']['Star.de_deg <='] = 0;
 					$options['conditions']['Star.de_deg >='] = -90;
-					$x = 4;
-					$y = 2;
 					break;
 					
 			}
@@ -176,13 +154,18 @@ class StarsController extends AppController {
 		$starData = $this->Star->find('all', $options);
 		$this->log($starData);
 		$stars = array();
+		$csizeX = 330;
+		$csizeY = 330;
+		$csizeR = 300;
+		
+		
+		
 		foreach($starData as $data){
 			$stars[$data['Star']['columns']] = array(
 				'star' => floor($data['Star']['vmag']), 
-				//'x' => $data['Star']['ra_deg']*6 - 350*$x, 
-				//'y' => $data['Star']['de_deg']*4 + 200*$y
-				'x' => cos($data['Star']['ra_deg'])*1400,
-				'y' => cos($data['Star']['de_deg'])*700
+				'r' => cos(deg2rad($data['Star']['de_deg'])) * $csizeR,
+				'x' => $csizeX + cos(deg2rad($data['Star']['ra_deg'])) * cos(deg2rad($data['Star']['de_deg'])) * $csizeR,
+				'y' => $csizeY + sin(deg2rad($data['Star']['ra_deg'])) * cos(deg2rad($data['Star']['de_deg'])) * $csizeR
 			);
 		}
 
