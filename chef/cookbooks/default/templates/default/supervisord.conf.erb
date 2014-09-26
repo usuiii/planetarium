@@ -51,6 +51,6 @@ serverurl=unix:///var/tmp/supervisor.sock ; use a unix:// URL  for a unix socket
 ;logfile_backups=10          ; # of logfile backups (default 10)
 
 [program:ratchet]
-command=bash -c "/vagrant_data/app/Console/cake Ratchet.websocket start"
+command=bash -c "/var/www/planetarium/data/app/Console/cake Ratchet.websocket start"
 user=root
 logfile= /var/log/supervisor/ratceht.log

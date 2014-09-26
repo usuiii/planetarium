@@ -179,8 +179,10 @@ class StarsController extends AppController {
 		foreach($starData as $data){
 			$stars[$data['Star']['columns']] = array(
 				'star' => floor($data['Star']['vmag']), 
-				'x' => $data['Star']['ra_deg']*6 - 350*$x, 
-				'y' => $data['Star']['de_deg']*4 + 200*$y
+				//'x' => $data['Star']['ra_deg']*6 - 350*$x, 
+				//'y' => $data['Star']['de_deg']*4 + 200*$y
+				'x' => cos($data['Star']['ra_deg'])*1400,
+				'y' => cos($data['Star']['de_deg'])*700
 			);
 		}
 

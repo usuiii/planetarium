@@ -1,0 +1,9 @@
+{
+  "run_list": [
+    "yum-remi",
+    "default"
+  ],
+    "nginx_user": "nginx",
+    "doc_root": "/var/www/planetarium/data/app/webroot", 
+    "timezone": "Asia/Tokyo"
+}

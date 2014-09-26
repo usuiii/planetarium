@@ -14,7 +14,7 @@ execute "yum-update" do
   action :run
 end
 
-packages = %w{php php-mcrypt php-mbstring php-mysql php-cli php-fpm php-pear mysql-server nginx curl php-gd supervisor haproxy php-pecl-event libevent-devel git php-devel mlocate}
+packages = %w{mysql php-pecl-event php php-mcrypt php-mbstring php-mysql php-cli php-fpm php-pear nginx curl php-gd supervisor haproxy libevent-devel git php-devel mlocate}
 packages.each do |pkg|
     package pkg do
       action [:install, :upgrade]
@@ -36,13 +36,13 @@ end
 
 execute "composer-install" do
   user "root"
-  command "cd /vagrant_data; composer install"
-  not_if { ::File.exists?("/vagrant_data/composer.lock")}
+  command "cd /var/www/planetarium/data; composer install"
+  not_if { ::File.exists?("/var/www/planetarium/data/composer.lock")}
 end
 
 execute "composer-update" do
   user "root"
-  command "cd /vagrant_data; composer update"
+  command "cd /var/www/planetarium/data; composer update"
   action  :run
 end
 
@@ -79,6 +79,13 @@ service "haproxy" do
   action   [ :enable, :start , :restart]
 end  
 
+
+#supervisord.cfg
+template "/etc/supervisord.conf" do
+  user "root"
+  mode 0644
+  source "supervisord.conf.erb"
+end
 service "supervisord" do
   action   [ :enable, :start , :restart]
 end  
@@ -98,25 +105,25 @@ link "/etc/localtime" do
 end
 
 # init mysql
-execute "mysql-install-db" do
-  user "root"
-  command "mysql_install_db"
-  action  :run
-  not_if  { File.exists?('/var/lib/mysql/mysql/user.frm') }
-end
+# execute "mysql-install-db" do
+#  user "root"
+#  command "mysql_install_db"
+#  action  :run
+#  not_if  { File.exists?('/var/lib/mysql/mysql/user.frm') }
+# end
 
-service "mysqld" do
-  action   [ :enable, :start ]
-end  
+# service "mysqld" do
+#  action   [ :enable, :start ]
+# end  
 
-execute "mysql-init" do
-  user "root"
-  command <<EOS
-    mysql -u root --execute  "create database if not exists planetarium CHARACTER SET utf8;"
-    mysql -u root --execute  "create database if not exists planetarium_test CHARACTER SET utf8;"
-    cd /vagrant_data/app; ./Console/cake Migrations.migration run all
-EOS
-action :run
-end
+# execute "mysql-init" do
+#  user "root"
+#  command <<EOS
+#    mysql -u root --execute  "create database if not exists planetarium CHARACTER SET utf8;"
+#    mysql -u root --execute  "create database if not exists planetarium_test CHARACTER SET utf8;"
+#    cd /vagrant_data/app; ./Console/cake Migrations.migration run all
+# EOS
+# action :run
+# end
 
 

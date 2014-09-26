@@ -54,7 +54,7 @@ App::build(array(
     'Plugin' => array(ROOT . DS . 'Plugin/'),
     'Vendor' => array(ROOT . DS . 'Vendor/'),
 ));
-require ROOT . DS . 'vendor' . DS . 'autoload.php';
+require ROOT . DS . 'Vendor' . DS . 'autoload.php';
 /**
  * Custom Inflector rules can be set to correctly pluralize or singularize table, model, controller names or whatever other
  * string is passed to the inflection functions
@@ -123,8 +123,8 @@ Configure::write('Ratchet', [
 			'port' => 11001,
 		],
 		'external' => [
-			'hostname' => 'localhost',			//if not local vagrant web server domain or ip address
-			'port' => 1234,					//if not local vagrant web server port 80
+			'hostname' => 'yourdomain.com',			//if not local vagrant web server domain or ip address
+			'port' => 80,					//if not local vagrant web server port 80
 			'path' => 'websocket',
 			'secure' => false,
 		],
